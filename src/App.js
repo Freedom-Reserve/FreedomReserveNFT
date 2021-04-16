@@ -188,7 +188,7 @@ function App() {
         }
       });
     }
-    log1("tokenIdsAvailable:", tokenIds, tokenIdsString1);
+    log1("tokenIdsAvailable:", tokenIds, ", tokenIdsString1:", tokenIdsString1);
     tokenIDsForSalesSet(tokenIds);
     tokenIDsStrSoldSet(tokenIdsString1);
   }

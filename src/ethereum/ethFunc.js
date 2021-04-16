@@ -140,10 +140,13 @@ resolve(-1);
 //---------------------== utility function
 const getEthNodeURL = async () =>
   new Promise(async (resolve, reject) => {
-    if (config.ethNodeNumber === 0) {
-      resolve(config.ethNodeURL0);
-    } else if (config.ethNodeNumber === 1) {
+    const num = config.contractPair;
+    if (num === 1) {
       resolve(config.ethNodeURL1);
+    } else if (num === 4) {
+      resolve(config.ethNodeURL4);
+    } else if (num === 42) {
+      resolve(config.ethNodeURL42);
     } else {
       console.error("ethNodeNumber is invalid");
       reject("ethNodeNumber is invalid");
@@ -209,6 +212,9 @@ new Promise(async (resolve, reject) => {
     resolve(ctrtAddrs);
   } else if (num === 100) {
     ctrtAddrs = [config.NFT721Creature_xDAI_1, config.NFT721Sales_xDAI_1];
+    resolve(ctrtAddrs);
+  } else if (num === 4) {
+    ctrtAddrs = [config.NFT721Creature_rinkeby, config.NFT721Sales_rinkeby];
     resolve(ctrtAddrs);
   } else {
     console.error("contractPair is invalid");
@@ -315,7 +321,8 @@ export const init = async () =>
     let mesg;
     console.log("init()");
     try {
-      const web3 = await getWeb3().catch((err) => {
+      //const web3 = await getInitWeb3().
+      const web3 = await getInitWeb3().catch((err) => {
         reject(err);
         return false;
       });
@@ -362,7 +369,9 @@ export const init = async () =>
       if(chainId === 77){
         log1("chainId 77 for xDai Testnet detected");
       } else if(chainId === 1){
-        log1("chainId 1 for Ethereum mainnet detected");
+        log1("chainId 1 for Ethereum Mainnet detected");
+      } else if(chainId === 4){
+        log1("chainId 4 for Ethereum Rinkeby detected");
       } else {
         mesg = "chainId invalid";
         reject(mesg);
