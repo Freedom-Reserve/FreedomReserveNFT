@@ -32,8 +32,8 @@ const MenuItem = ({title, imageUrl, size, history, tokenIDs, match}) => {
     // setLoading(true);
     // setErrMsg("");
     if(isAvailable){
-      const gasPrice = 1;
-      const gasLimit = 1000000;
+      const gasPrice = config.gasPrice;
+      const gasLimit = config.gasLimit;
   
       data1 = await buyNFTViaETH(compo, gasPrice, gasLimit, tokenId).catch((err) => {
         //setErrMsg("buyNFTViaETH1 failed");

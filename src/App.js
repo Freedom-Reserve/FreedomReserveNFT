@@ -282,8 +282,7 @@ function App() {
       <div className="App">
         <EthereumContext.Provider value={compo}>
         <h1>Freedom Reserve Limited Edition Coins</h1>
-          <h3>current network: {compo[2]}</h3>
-          <h3>is Network ID Ok: {compo[2]===Number(config.contractPair)?"Correct":"Incorrect"}</h3>
+          <h3>current network: {compo[2]}, Network ID: {compo[2]===Number(config.contractPair)?"Ok":"Incorrect Network"}</h3>
           <h3>current address: {compo[1]}</h3>
 
           <h3>These coins commemorate the founding of Freedom Reserve.</h3>

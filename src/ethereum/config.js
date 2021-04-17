@@ -3,10 +3,10 @@
 @brief ... 
 
 //-------------== To Deploy
-For Production:  serverNumber to 1
+For Production:  isProduction to 1
+Else: Set isProduction = 0
 
-Else: Set serverNumber = 0
-
+$ yarn deploy
 Then push
 //-------------==
 manual push: copy ethereum192x192.png into repo
@@ -14,7 +14,7 @@ manual push: copy ethereum192x192.png into repo
 erc20TokenAddress: '',
 
 @author Raymond Lieu
-@date   2020-12-23
+@date   2021-042-17
 */
 export const config = {
   infuraProvider:
@@ -29,6 +29,8 @@ export const config = {
   DBID: 0,
   serverNumer: 1,
   isProduction: 1,
+  gasPrice: 155,
+  gasLimit: 1000000,
   server0: "http://localhost:3000",
   server1: "https://google.com",
   defaultUserChoice: 2,
