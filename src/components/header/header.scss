@@ -3,7 +3,9 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 25px;
+  margin-bottom: 0px;
+  color: rgb(180, 176, 176);
+  background-color: #151515;
 
   .logo-container {
     height: 100%;
@@ -12,7 +14,7 @@
   }
 
   .options {
-    width: 50%;
+    width: 90%;
     height: 100%;
     display: flex;
     align-items: center;
@@ -21,6 +23,7 @@
     .option {
       padding: 10px 15px;
       cursor: pointer;
+      font-size: x-large;
     }
   }
 }

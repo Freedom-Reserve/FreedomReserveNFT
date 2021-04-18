@@ -2,6 +2,7 @@ import React from 'react';
 
 import MenuItem from '../menu-item/menu-item';
 import {items} from '../../ethereum/config';
+import './directory.styles.scss';
 
 const Directory = ({rowNum, tokenIDs}) =>  {
   console.log("---------== Directory \nrowNum:", rowNum, ", tokenIDs:", tokenIDs);

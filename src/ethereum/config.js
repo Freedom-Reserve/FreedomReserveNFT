@@ -28,7 +28,7 @@ export const config = {
   password: "abc123",
   DBID: 0,
   serverNumer: 1,
-  isProduction: 1,
+  isProduction: 0,
   gasPrice: 155,
   gasLimit: 1000000,
   server0: "http://localhost:3000",

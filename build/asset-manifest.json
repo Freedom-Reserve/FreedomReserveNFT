@@ -1,25 +1,24 @@
 {
   "files": {
-    "main.css": "/FreedomReserveNFT/static/css/main.82305880.chunk.css",
-    "main.js": "/FreedomReserveNFT/static/js/main.19fbe1ca.chunk.js",
-    "main.js.map": "/FreedomReserveNFT/static/js/main.19fbe1ca.chunk.js.map",
+    "main.css": "/FreedomReserveNFT/static/css/main.0c37e577.chunk.css",
+    "main.js": "/FreedomReserveNFT/static/js/main.10d7f025.chunk.js",
+    "main.js.map": "/FreedomReserveNFT/static/js/main.10d7f025.chunk.js.map",
     "runtime-main.js": "/FreedomReserveNFT/static/js/runtime-main.1adf0fbc.js",
     "runtime-main.js.map": "/FreedomReserveNFT/static/js/runtime-main.1adf0fbc.js.map",
     "static/css/2.b453e03d.chunk.css": "/FreedomReserveNFT/static/css/2.b453e03d.chunk.css",
-    "static/js/2.b572be68.chunk.js": "/FreedomReserveNFT/static/js/2.b572be68.chunk.js",
-    "static/js/2.b572be68.chunk.js.map": "/FreedomReserveNFT/static/js/2.b572be68.chunk.js.map",
+    "static/js/2.97ca2db3.chunk.js": "/FreedomReserveNFT/static/js/2.97ca2db3.chunk.js",
+    "static/js/2.97ca2db3.chunk.js.map": "/FreedomReserveNFT/static/js/2.97ca2db3.chunk.js.map",
     "index.html": "/FreedomReserveNFT/index.html",
     "static/css/2.b453e03d.chunk.css.map": "/FreedomReserveNFT/static/css/2.b453e03d.chunk.css.map",
-    "static/css/main.82305880.chunk.css.map": "/FreedomReserveNFT/static/css/main.82305880.chunk.css.map",
-    "static/js/2.b572be68.chunk.js.LICENSE.txt": "/FreedomReserveNFT/static/js/2.b572be68.chunk.js.LICENSE.txt",
-    "static/media/semantic.min.css": "/FreedomReserveNFT/static/media/outline-icons.ddae9b1b.woff",
-    "static/media/crown.3a4e2b15.svg": "/FreedomReserveNFT/static/media/crown.3a4e2b15.svg"
+    "static/css/main.0c37e577.chunk.css.map": "/FreedomReserveNFT/static/css/main.0c37e577.chunk.css.map",
+    "static/js/2.97ca2db3.chunk.js.LICENSE.txt": "/FreedomReserveNFT/static/js/2.97ca2db3.chunk.js.LICENSE.txt",
+    "static/media/semantic.min.css": "/FreedomReserveNFT/static/media/outline-icons.ddae9b1b.woff"
   },
   "entrypoints": [
     "static/js/runtime-main.1adf0fbc.js",
     "static/css/2.b453e03d.chunk.css",
-    "static/js/2.b572be68.chunk.js",
-    "static/css/main.82305880.chunk.css",
-    "static/js/main.19fbe1ca.chunk.js"
+    "static/js/2.97ca2db3.chunk.js",
+    "static/css/main.0c37e577.chunk.css",
+    "static/js/main.10d7f025.chunk.js"
   ]
 }

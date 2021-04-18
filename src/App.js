@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.scss";
 import "semantic-ui-css/semantic.min.css";
 import React, { useState, useEffect } from "react";
 import { Form, Button, Input, Label, Message, } from "semantic-ui-react";
@@ -17,8 +17,6 @@ To add a function: duplicate App function, errMsg, UI, store function(Ethereum f
 */
 import EthereumContext from "./ethereumContext"; //no {}
 //import ChildComponent from "./ChildComponent";
-
-import './homepage.scss';
 
 function App() {
   if(window.ethereum) window.ethereum.autoRefreshOnNetworkChange = false;
@@ -196,6 +194,121 @@ function App() {
     return /\d/.test(myString);
   }
 
+  let networkId = 0;
+  if (compo === undefined || compo.length !== 4) {
+    log1("compo failed", compo);
+    networkId = 0
+  } else {
+    networkId = compo[2];
+  }
+    // if (typeof rewardsStates !== "undefined") {
+    //   //checking reading from smart contracts
+    // }
+
+  return (
+    <div className="App">
+      <EthereumContext.Provider value={compo}>
+      <h1>Freedom Reserve Limited Edition Coins</h1>
+        <h3>current network: {networkId === 0? "Please use WEB3 browser and choose correct network":networkId}, Network ID: {networkId===Number(config.contractPair)?"Ok":"Incorrect Network"}</h3>
+        <h3>current address: {compo[1]}</h3>
+
+        <br></br>
+        <Form onSubmit={BalanceOf1} >
+          <Button
+            content="BalanceOf"
+            primary
+          />
+          <Label size={'huge'}>{nftBalance} Freedom Reserve NFT</Label>
+        </Form>
+
+        <br></br>
+        <Form onSubmit={CheckUser1} >
+          <Button
+            content="Check User's Token IDs"
+            primary
+          />
+          <Label size={'huge'}>{tokenIDsString}</Label>
+        </Form>
+
+        <br></br>
+        <Directory rowNum={1} tokenIDs={tokenIDsForSales} />
+        <Directory rowNum={2} tokenIDs={tokenIDsForSales} />
+
+        <br></br>
+        <div className="para2" >
+        <h3>These coins commemorate the founding of Freedom Reserve.</h3>
+        <h3>The special powers they confer on their holders will be revealed soon.</h3>
+
+        <h3>(All funds raised go towards an exchange listing for Freedom Reserve.)
+        </h3>
+        <br></br>
+        <h3>Copyright 2021 Freedom Reseve. All rights reserved</h3>
+        </div>
+
+      </EthereumContext.Provider>
+    </div>
+  );
+  
+}
+
+export default App;
+/**
+          <br></br>
+          <Form error={!!errMsg}>
+            <Message error header="Error" content={errMsg} />
+            <Button color="orange" loading={loading} content="setGasPrice" />
+            <Input
+              label="unit in GWei"
+              labelPosition="right"
+              placeholder="gas price"
+              value={gasPrice}
+              onChange={(event) => {
+                setGasPrice(event.target.value);
+                //checkNumeric(event.target.value, "gasPrice");
+              }}
+            />
+          </Form>
+
+          <br></br>
+          <Form error={!!errMsg}>
+            <Button color="orange" loading={loading} content="setGasLimit" />
+            <Input
+              label="unit in Wei"
+              labelPosition="right"
+              placeholder="gas limit"
+              value={gasLimit}
+              onChange={(event) => {
+                setGasLimit(event.target.value);
+                //checkNumeric(event.target.value, "gasLimit");
+              }}
+            />
+          </Form>
+
+          <br></br>
+          <Form error={!!errMsg}>
+            <Button color="orange" loading={loading} content="userAddr" />
+            <Input
+              label=""
+              labelPosition="right"
+              placeholder="0x..."
+              value={userAddr}
+              onChange={(event) => {
+                userAddrSet(event.target.value);
+              }}
+            />
+          </Form>
+
+          <Label>gasPrice: {0}</Label>
+
+
+<div>
+    <ArrayObjects arrayInputs={rewardsDB} />
+  </div> 
+
+  <br></br>
+  <Header />
+  <Label size={'huge'}> Under Construction </Label>
+*/
   // const getCurrentAccount = async (event) => {
   //   event.preventDefault();
   //   log1("---------== getCurrentAccount()");
@@ -269,113 +382,3 @@ function App() {
   //   log1("DBDropdown value:", value);
   //   //outcomeSet(value);
   // };
-
-  if (compo === undefined || compo.length !== 4) {
-    log1("compo failed", compo);
-    return <div>Loading web3, accounts, instances: Please use correct network</div>;
-  } else {
-    // if (typeof rewardsStates !== "undefined") {
-    //   //checking reading from smart contracts
-    // }
-
-    return (
-      <div className="App">
-        <EthereumContext.Provider value={compo}>
-        <h1>Freedom Reserve Limited Edition Coins</h1>
-          <h3>current network: {compo[2]}, Network ID: {compo[2]===Number(config.contractPair)?"Ok":"Incorrect Network"}</h3>
-          <h3>current address: {compo[1]}</h3>
-
-          <h3>These coins commemorate the founding of Freedom Reserve.</h3>
-          <h3>The special powers they confer on their holders will be revealed soon.</h3>
-
-          <h3>(All funds raised go towards an exchange listing for Freedom Reserve.)
-          </h3>
-
-
-          <br></br>
-          <br></br>
-          <Form onSubmit={BalanceOf1} >
-            <Button
-              content="BalanceOf"
-              primary
-            />
-            <Label size={'huge'}>{nftBalance} Freedom Reserve NFT</Label>
-          </Form>
-
-          <br></br>
-          <Form onSubmit={CheckUser1} >
-            <Button
-              content="Check User's Token IDs"
-              primary
-            />
-            <Label size={'huge'}>{tokenIDsString}</Label>
-          </Form>
-
-          <br></br>
-          <Directory rowNum={1} tokenIDs={tokenIDsForSales} />
-          <Directory rowNum={2} tokenIDs={tokenIDsForSales} />
-
-        </EthereumContext.Provider>
-      </div>
-    );
-  }
-}
-
-export default App;
-/**
-          <br></br>
-          <Form error={!!errMsg}>
-            <Message error header="Error" content={errMsg} />
-            <Button color="orange" loading={loading} content="setGasPrice" />
-            <Input
-              label="unit in GWei"
-              labelPosition="right"
-              placeholder="gas price"
-              value={gasPrice}
-              onChange={(event) => {
-                setGasPrice(event.target.value);
-                //checkNumeric(event.target.value, "gasPrice");
-              }}
-            />
-          </Form>
-
-          <br></br>
-          <Form error={!!errMsg}>
-            <Button color="orange" loading={loading} content="setGasLimit" />
-            <Input
-              label="unit in Wei"
-              labelPosition="right"
-              placeholder="gas limit"
-              value={gasLimit}
-              onChange={(event) => {
-                setGasLimit(event.target.value);
-                //checkNumeric(event.target.value, "gasLimit");
-              }}
-            />
-          </Form>
-
-          <br></br>
-          <Form error={!!errMsg}>
-            <Button color="orange" loading={loading} content="userAddr" />
-            <Input
-              label=""
-              labelPosition="right"
-              placeholder="0x..."
-              value={userAddr}
-              onChange={(event) => {
-                userAddrSet(event.target.value);
-              }}
-            />
-          </Form>
-
-          <Label>gasPrice: {0}</Label>
-
-
-<div>
-    <ArrayObjects arrayInputs={rewardsDB} />
-  </div> 
-
-  <br></br>
-  <Header />
-  <Label size={'huge'}> Under Construction </Label>
-*/

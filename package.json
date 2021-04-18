@@ -21,8 +21,8 @@
     "web3": "^1.3.0"
   },
   "scripts": {
-    "predeploy":"yarn build",
-    "deploy":"gh-pages -d build",
+    "build1":"yarn build",
+    "build2":"gh-pages -d build",
     "start": "react-scripts start",
     "startDev": "PORT=3001 react-scripts start",
     "build": "react-scripts build",

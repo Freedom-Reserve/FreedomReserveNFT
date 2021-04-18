@@ -1,16 +1,16 @@
 $breakpoint-tablet: 768px;
 $percentage: 17;
-//$imageHeight: 170px;
+$imageHeight: 200px;
 
 .menu-item {
   //min-width: 100px;
-  //width: 120px;
+  //width: 250px;
   //height: $imageHeight;
   flex: 1 1 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid black;
+  border: 1px solid rgb(180, 176, 176);
   margin: 0 7.5px 15px;
   overflow: hidden;//to contain the enlarging background image!
 
@@ -33,9 +33,12 @@ $percentage: 17;
     height: 380px;
   }
   &.small {
-    height: 420px;
-    min-width: 280px;
-    //width: 120px;
+    height: $imageHeight;
+    min-width: $imageHeight;
+    //height: 230~420px;
+    //min-width: 280px;
+    //width: 250px;
+    max-width: $imageHeight;
     //max-width: 120px;
   }
 
@@ -55,7 +58,8 @@ $percentage: 17;
 
   .content {
     height: 50px;
-    margin-top: 120px;
+    margin-top: 90px;
+    //padding: 0 20px 20px 0;
     padding: 0 25px;
     display: flex;
     flex-direction: column;
