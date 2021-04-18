@@ -4,7 +4,6 @@
 
 //-------------== To Deploy
 For Production:  isProduction to 1
-Else: Set isProduction = 0
 
 $ yarn deploy
 Then push
@@ -14,7 +13,7 @@ manual push: copy ethereum192x192.png into repo
 erc20TokenAddress: '',
 
 @author Raymond Lieu
-@date   2021-042-17
+@date   2021-04-17
 */
 export const config = {
   infuraProvider:
@@ -24,7 +23,7 @@ export const config = {
   ethNodeURL4: "https://rinkeby.infura.io/v3/75d",
   ethNodeURL42: "https://kovan.infura.io/v3/75d",
   gasDataSource:
-    "https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=xyz",
+    "https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=GH7KVC23UWE9BTDKDVRDSTTE5X8I25U2X5",
   password: "abc123",
   DBID: 0,
   serverNumer: 1,
@@ -35,7 +34,7 @@ export const config = {
   server1: "https://google.com",
   defaultUserChoice: 2,
   user1: "",
-  user2: "0xF694dCbec7f434dE9F892cfACF0449DB8661334D",
+  user2: "",
   recordsPerPage: 3,
   contractPair: 4,
   NFT721Creature_rinkeby: "0xa8e5142885Ec751fA9CE34a32E6a978DEaC22C8e",

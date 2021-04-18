@@ -7,8 +7,8 @@ const Header = ({ hidden }) => (
   <div className='header'>
 
     <div className='options'>
-      <a className='option' href="https://freedomreserv.eth.link" target="_blank" rel="noreferrer">
-        HOME PAGE
+      <a className='option' href="https://freedomreserv.eth.link/main.html" target="_blank" rel="noreferrer">
+      back to homepage
       </a>
 
     </div>

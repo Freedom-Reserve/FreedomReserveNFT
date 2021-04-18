@@ -1,12 +1,8 @@
 import { ethers, BigNumber} from "ethers"; //BigNumber
 import { config } from "./config";
-import {extractCompo, toWei, fromWei, GWEI, addr0, getCtrtAddresses} from "./ethFunc";
+import {extractCompo, toWei, fromWei, GWEI, addr0, getCtrtAddresses, getGasData} from "./ethFunc";
 
 //--------------------------==
-const recordsPerPage = config.recordsPerPage;
-
-let option = 0, bool1 = false, uintNum = 0;
-
 //--------------------------== initAction()
 /** should be run once and save compo1 into a state variable for all other functions to use
 
@@ -146,15 +142,16 @@ export const buyNFTViaETH = async (compo, gasPrice, gasLimit, tokenId) => new Pr
 
       const priceInWeiETH = await instNFT721Sales.methods.priceInWeiETH().call();
       //const value1 = web3.utils.toWei('0.1', "ether");
+      const gasPriceFromAPI = await getGasData();
 
-      console.log("addrFrom:", addrFrom, ", gasPrice:", gasPrice, ", gasLimit:", gasLimit, tokenId, priceInWeiETH, typeof priceInWeiETH );
+      console.log("addrFrom:", addrFrom, ", gasPriceFromAPI:", gasPriceFromAPI, ", gasLimit:", gasLimit, tokenId, priceInWeiETH, typeof priceInWeiETH );
     
       await instNFT721Sales.methods
         .buyNFTViaETH(tokenId)
         .send({
           from: addrFrom,
           value: priceInWeiETH,
-          gasPrice: gasPrice * GWEI,
+          gasPrice: gasPriceFromAPI * GWEI,
           gas: gasLimit,
         })
         .on("receipt", (receipt) => {

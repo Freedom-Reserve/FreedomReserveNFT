@@ -171,7 +171,7 @@ export const getGasData = async () =>
       resolve(gasPriceNew);
     } else if (isToAcceptOpaqueRes) {
       let data = await response.text();
-      log1("data:", data);
+      log1("ProposeGasPrice:", data);
       resolve(data ? JSON.parse(data) : {});
     } else {
       reject(false);

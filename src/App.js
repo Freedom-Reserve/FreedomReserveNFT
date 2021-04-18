@@ -216,7 +216,7 @@ function App() {
         <Form onSubmit={BalanceOf1} >
           <Button
             content="BalanceOf"
-            primary
+            color='green'
           />
           <Label size={'huge'}>{nftBalance} Freedom Reserve NFT</Label>
         </Form>
@@ -225,7 +225,7 @@ function App() {
         <Form onSubmit={CheckUser1} >
           <Button
             content="Check User's Token IDs"
-            primary
+            color='green'
           />
           <Label size={'huge'}>{tokenIDsString}</Label>
         </Form>
@@ -242,7 +242,7 @@ function App() {
         <h3>(All funds raised go towards an exchange listing for Freedom Reserve.)
         </h3>
         <br></br>
-        <h3>Copyright 2021 Freedom Reseve. All rights reserved</h3>
+        <h3>Copyright 2021 Freedom Reserve. All rights reserved</h3>
         </div>
 
       </EthereumContext.Provider>
