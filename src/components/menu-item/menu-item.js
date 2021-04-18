@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
 import "semantic-ui-css/semantic.min.css";
-import { Form, Button, Input, Label, Message, Dropdown,
-  Grid, } from "semantic-ui-react";
+//import { Form, Button, Input, Label, Message, Dropdown, Grid, } from "semantic-ui-react";
 import EthereumContext from "../../ethereumContext"; //no {}
 import { withRouter } from 'react-router-dom';
 import './menu-item.scss';
 import {config} from '../../ethereum/config';
-import { ReadFunc, buyNFTViaETH, buyNFTViaETHCheck, BalanceOf } from '../../ethereum/store';
+import { buyNFTViaETH, } from '../../ethereum/store';
+import { getGasData} from "../../ethereum/ethFunc";
+
 
 const MenuItem = ({title, imageUrl, size, history, tokenIDs, match}) => {
   console.log("---------== MenuItem")
@@ -32,7 +33,8 @@ const MenuItem = ({title, imageUrl, size, history, tokenIDs, match}) => {
     // setLoading(true);
     // setErrMsg("");
     if(isAvailable){
-      const gasPrice = config.gasPrice;
+      const gasPrice = await getGasData();
+      //const gasPrice = config.gasPrice;
       const gasLimit = config.gasLimit;
   
       data1 = await buyNFTViaETH(compo, gasPrice, gasLimit, tokenId).catch((err) => {

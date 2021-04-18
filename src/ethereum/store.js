@@ -1,13 +1,26 @@
 import { ethers, BigNumber} from "ethers"; //BigNumber
-import { config } from "./config";
-import {extractCompo, toWei, fromWei, GWEI, addr0, getCtrtAddresses, getGasData} from "./ethFunc";
+//import { config } from "./config";
+import {extractCompo, toWei, fromWei, GWEI, addr0, getCtrtAddresses, getGasData, fromWeiE} from "./ethFunc";
 
 //--------------------------==
-//--------------------------== initAction()
-/** should be run once and save compo1 into a state variable for all other functions to use
+//--------------------------== Sale Contract
+export const getSalePrice = async (compo) => new Promise(async (resolve, reject) => {
+  console.log("---------== getSalePrice()");
+  const [instNFT721Sales, addrFrom] = await extractCompo(compo, 1, 0);
+  try {
+    if (instNFT721Sales !== undefined && addrFrom !== "") {
+      const priceInWeiETH = await instNFT721Sales.methods.priceInWeiETH().call();
+      const priceInETHETH = fromWei(priceInWeiETH);
+      resolve(priceInETHETH);
+    }
+  } catch (err) {
+    console.error(err);
+    reject(err);
+    //this.setState({errGetBalance: err.message});
+  }
+});
 
-*/
-//--------------------------==
+//--------------------------== ERC721 Contract
 export const ReadFunc = async (compo) =>
 new Promise(async (resolve, reject) => {
   console.log("---------== ReadFunc()");
@@ -117,12 +130,19 @@ new Promise(async (resolve, reject) => {
 export const isTokenAvailable = async (compo, tokenId) => new Promise(async (resolve, reject) => {
   console.log("---------== isTokenAvailable()");
   const [instNFT721Creature, addrFrom] = await extractCompo(compo, 0, 0);
-
-  const isExisting = await instNFT721Creature.methods.exists(tokenId).call();
-  const tokenOwner = await instNFT721Creature.methods.ownerOf(tokenId).call();
-  const isNotOwned = tokenOwner !== addrFrom;
-  console.log("isExisting:", isExisting, ", isNotOwned:", isNotOwned);
-  resolve(isExisting && isNotOwned);
+  try {
+    if (instNFT721Creature !== undefined && addrFrom !== "") {
+      const isExisting = await instNFT721Creature.methods.exists(tokenId).call();
+      const tokenOwner = await instNFT721Creature.methods.ownerOf(tokenId).call();
+      const isNotOwned = tokenOwner !== addrFrom;
+      console.log("isExisting:", isExisting, ", isNotOwned:", isNotOwned);
+      resolve(isExisting && isNotOwned);
+    } 
+  }catch (err) {
+    console.error(err);
+    reject(err);
+    //this.setState({errGetBalance: err.message});
+  }
 });
 
 export const buyNFTViaETH = async (compo, gasPrice, gasLimit, tokenId) => new Promise(async (resolve, reject) => {
@@ -141,17 +161,16 @@ export const buyNFTViaETH = async (compo, gasPrice, gasLimit, tokenId) => new Pr
       }
 
       const priceInWeiETH = await instNFT721Sales.methods.priceInWeiETH().call();
-      //const value1 = web3.utils.toWei('0.1', "ether");
-      const gasPriceFromAPI = await getGasData();
+      //const value1= web3.utils.toWei('0.1', "ether");
 
-      console.log("addrFrom:", addrFrom, ", gasPriceFromAPI:", gasPriceFromAPI, ", gasLimit:", gasLimit, tokenId, priceInWeiETH, typeof priceInWeiETH );
+      console.log("addrFrom:", addrFrom, ", gasPrice:", gasPrice, ", gasLimit:", gasLimit, tokenId, priceInWeiETH, typeof priceInWeiETH );
     
       await instNFT721Sales.methods
         .buyNFTViaETH(tokenId)
         .send({
           from: addrFrom,
           value: priceInWeiETH,
-          gasPrice: gasPriceFromAPI * GWEI,
+          gasPrice: gasPrice * GWEI,
           gas: gasLimit,
         })
         .on("receipt", (receipt) => {

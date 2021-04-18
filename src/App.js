@@ -7,10 +7,10 @@ import { Form, Button, Input, Label, Message, } from "semantic-ui-react";
 //import { DropDownRewardsCtrts } from "./dropdown";
 import {init, log1, } from "./ethereum/ethFunc";//getGasData, getERC20Balance, fromWei, checkNetwork, getNFTBalance, 
 import { config } from "./ethereum/config";//rewardsCtrtIdxes, dbSelections, assetNames, outcomes, 
-import {BalanceOf, CheckUser, CheckAvailable } from "./ethereum/store";
+import {BalanceOf, CheckUser, CheckAvailable, getSalePrice} from "./ethereum/store";
 
 import Directory from './components/directory/directory';
-import Header from './components/header/header';
+//import Header from './components/header/header';
 
 /**
 To add a function: duplicate App function, errMsg, UI, store function(Ethereum function), replace from red part in App.js
@@ -42,7 +42,8 @@ function App() {
   const [tokenIDs, tokenIDsSet] = useState([]);
   const [tokenIDsForSales, tokenIDsForSalesSet] = useState([]);
   const [tokenIDsString, tokenIDsStringSet] = useState("");
-  const [tokenIDsStrSold, tokenIDsStrSoldSet] = useState("");
+  const [salePrice, salePriceSet] = useState("");
+  //const [tokenIDsStrSold, tokenIDsStrSoldSet] = useState("");
 
   useEffect(() => {
     //cannot add async here, so make async below
@@ -92,6 +93,7 @@ function App() {
       await BalanceOf1();
       await CheckUser1();
       await CheckAvailable1();
+      await getSalePrice1();
     };
     if (!Array.isArray(compo) || !compo.length) {
       log1("useEffect2: is not an array, or is empty")
@@ -107,6 +109,17 @@ function App() {
   //   }, delayInMilliseconds);
   // };
 
+  const getSalePrice1 = async (event) => {
+    if(event) event.preventDefault();
+    log1("---------== getSalePrice1()");
+    // setLoading(true);
+    // setErrMsg("");
+    const data1 = await getSalePrice(compo).catch((err) => {
+      //setErrMsg("getSalePrice1 failed");
+      return false;
+    });
+    salePriceSet(data1);
+  }
   const BalanceOf1 = async (event) => {
     if(event) event.preventDefault();
     log1("---------== BalanceOf1()");
@@ -188,7 +201,7 @@ function App() {
     }
     log1("tokenIdsAvailable:", tokenIds, ", tokenIdsString1:", tokenIdsString1);
     tokenIDsForSalesSet(tokenIds);
-    tokenIDsStrSoldSet(tokenIdsString1);
+    //tokenIDsStrSoldSet(tokenIdsString1);
   }
   function hasNumber(myString) {
     return /\d/.test(myString);
@@ -209,8 +222,9 @@ function App() {
     <div className="App">
       <EthereumContext.Provider value={compo}>
       <h1>Freedom Reserve Limited Edition Coins</h1>
-        <h3>current network: {networkId === 0? "Please use WEB3 browser and choose correct network":networkId}, Network ID: {networkId===Number(config.contractPair)?"Ok":"Incorrect Network"}</h3>
-        <h3>current address: {compo[1]}</h3>
+        <h3>Connected Network: {networkId === 0? "Please use WEB3 browser and choose correct network":networkId}, Network ID: {networkId===Number(config.contractPair)?"Ok":"Incorrect Network"}</h3>
+        <h3>Connected address: {compo[1]}</h3>
+        <h3>Sale Price: {salePrice} ETH per NFT</h3>
 
         <br></br>
         <Form onSubmit={BalanceOf1} >
