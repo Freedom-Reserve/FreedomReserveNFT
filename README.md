@@ -1,8 +1,11 @@
 # FreedomReserveNFT
 
 ## To Deploy
-For Production:  serverNumber to 1
-Else: Set serverNumber = 0
+For Production:  isProduction to 1
+Else: Set isProduction = 0
+
+$ yarn deploy
+then push
 
 contractPair inside the config file is needed to specify which smart contract to use: 0 for dev or 1 for production smart contract
 
