@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/FreedomReserveNFT/static/css/main.0c37e577.chunk.css",
-    "main.js": "/FreedomReserveNFT/static/js/main.f035a2b1.chunk.js",
-    "main.js.map": "/FreedomReserveNFT/static/js/main.f035a2b1.chunk.js.map",
+    "main.js": "/FreedomReserveNFT/static/js/main.a15f22f6.chunk.js",
+    "main.js.map": "/FreedomReserveNFT/static/js/main.a15f22f6.chunk.js.map",
     "runtime-main.js": "/FreedomReserveNFT/static/js/runtime-main.1adf0fbc.js",
     "runtime-main.js.map": "/FreedomReserveNFT/static/js/runtime-main.1adf0fbc.js.map",
     "static/css/2.b453e03d.chunk.css": "/FreedomReserveNFT/static/css/2.b453e03d.chunk.css",
@@ -19,6 +19,6 @@
     "static/css/2.b453e03d.chunk.css",
     "static/js/2.97ca2db3.chunk.js",
     "static/css/main.0c37e577.chunk.css",
-    "static/js/main.f035a2b1.chunk.js"
+    "static/js/main.a15f22f6.chunk.js"
   ]
 }
