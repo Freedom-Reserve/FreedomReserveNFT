@@ -12,7 +12,6 @@ Then push
 //-------------==
 manual push: copy ethereum192x192.png into repo
 
-@author Raymond Lieu
 @date   2020-12-23
 
 contractPair = 56 for BSC Mainnet, 97 for BSC Testnet

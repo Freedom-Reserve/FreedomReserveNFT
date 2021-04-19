@@ -177,13 +177,20 @@ export const buyNFTViaETH = async (compo, gasPrice, gasLimit, tokenId) => new Pr
           console.log(`receipt: ${JSON.stringify(receipt, null, 4)}`);
           resolve(receipt.transactionHash);
         })
-        .on("error", (err, receipt) => {
-          console.error("txn failed:", err);
+        .on("error", async(err, receipt) => {
+          console.error("err@buyNFTViaETH:", err);
+          const result = await buyNFTViaETHCheck(compo, gasPrice, gasLimit, tokenId).catch((err) => {
+            console.error("err@buyNFTViaETHCheck:", err)
+            reject(err);
+            return false;
+          });;
+          console.log("buyNFTViaETHCheck result:", result);
           reject(err);
           return false;
         });
+    } else {
+      resolve("contract instance or addrFrom invalid");
     }
-    resolve("contract instance not existing");
   } catch (err) {
     console.error(err);
     reject(err);
@@ -202,8 +209,9 @@ export const buyNFTViaETHCheck = async (compo, gasPrice, gasLimit, tokenId) => n
         .BuyNFTViaETHCheck(tokenId)
         .call({from: addrFrom});
         resolve(result);
+    } else {
+      resolve("contract instance or addrFrom invalid");
     }
-    resolve("contract instance not existing");
   } catch (err) {
     console.error(err);
     reject(err);

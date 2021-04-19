@@ -140,12 +140,12 @@ resolve(-1);
 //---------------------== utility function
 const getEthNodeURL = async () =>
   new Promise(async (resolve, reject) => {
-    const num = config.contractPair;
-    if (num === 1) {
+    const ctrtNum = config.contractPair;
+    if (ctrtNum === 1) {
       resolve(config.ethNodeURL1);
-    } else if (num === 4) {
+    } else if (ctrtNum === 4) {
       resolve(config.ethNodeURL4);
-    } else if (num === 42) {
+    } else if (ctrtNum === 42) {
       resolve(config.ethNodeURL42);
     } else {
       console.error("ethNodeNumber is invalid");
@@ -205,16 +205,19 @@ new Promise((resolve, reject) => {
 
 export const getCtrtAddresses = async () =>
 new Promise(async (resolve, reject) => {
-  const num = config.contractPair;
+  const ctrtNum = config.contractPair;
   let ctrtAddrs;
-  if (num === 77) {
+  if (ctrtNum === 77) {
     ctrtAddrs = [config.NFT721Creature_xDAI_0, config.NFT721Sales_xDAI_0];
     resolve(ctrtAddrs);
-  } else if (num === 100) {
+  } else if (ctrtNum === 100) {
     ctrtAddrs = [config.NFT721Creature_xDAI_1, config.NFT721Sales_xDAI_1];
     resolve(ctrtAddrs);
-  } else if (num === 4) {
+  } else if (ctrtNum === 4) {
     ctrtAddrs = [config.NFT721Creature_rinkeby, config.NFT721Sales_rinkeby];
+    resolve(ctrtAddrs);
+  } else if (ctrtNum === 1) {
+    ctrtAddrs = [config.NFT721Creature_ethMainnet, config.NFT721Creature_ethMainnet];
     resolve(ctrtAddrs);
   } else {
     console.error("contractPair is invalid");

@@ -12,7 +12,6 @@ manual push: copy ethereum192x192.png into repo
 
 erc20TokenAddress: '',
 
-@author Raymond Lieu
 @date   2021-04-17
 */
 export const config = {
@@ -20,8 +19,8 @@ export const config = {
     "https://eth-mainnet.alchemyapi.io/v2/k2--UTxxx",
   ethNodeURL0: "",
   ethNodeURL1: "https://mainnet.infura.io/v3/75df2",
-  ethNodeURL4: "https://rinkeby.infura.io/v3/75d",
-  ethNodeURL42: "https://kovan.infura.io/v3/75d",
+  ethNodeURL4: "https://rinkeby.infura.io/v3/75df2",
+  ethNodeURL42: "https://kovan.infura.io/v3/75df2",
   gasDataSource:
     "https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=GH7KVC23UWE9BTDKDVRDSTTE5X8I25U2X5",
   password: "abc123",
@@ -36,9 +35,11 @@ export const config = {
   user1: "",
   user2: "",
   recordsPerPage: 3,
-  contractPair: 4,
+  contractPair: 1,
   NFT721Creature_rinkeby: "0xa8e5142885Ec751fA9CE34a32E6a978DEaC22C8e",
   NFT721Sales_rinkeby: "0x8Ace2c3Cc2e4657312b0B19F51a402Ffc74f9c1a",
+  NFT721Creature_ethMainnet: "0xa58257fF0849d04b2B3896C75590Bce6e1e61ae8",
+  NFT721Sales_ethMainnet: "0xd34443606A62c7c09dC88e86C4D52165799bd362",
   ERC20_FR_rinkeby: "",
   NFT721Creature_xDAI_0: "0xEf169fbA14000463C9A9747C6Ab39750CaeBA440",
   NFT721Sales_xDAI_0: "0xc2153D539cE9778e7011BdC5bA7E56aE8F87d22e",
