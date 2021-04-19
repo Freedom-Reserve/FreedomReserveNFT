@@ -115,6 +115,8 @@ function App() {
     // setLoading(true);
     // setErrMsg("");
     const data1 = await getSalePrice(compo).catch((err) => {
+      console.error("err@getSalePrice:", err);
+      salePriceSet("?");
       //setErrMsg("getSalePrice1 failed");
       return false;
     });
@@ -126,6 +128,8 @@ function App() {
     // setLoading(true);
     // setErrMsg("");
     const data1 = await BalanceOf(compo).catch((err) => {
+      console.error("err@BalanceOf:", err);
+      nftBalanceSet(-2);
       //setErrMsg("BalanceOf1 failed");
       return false;
     });

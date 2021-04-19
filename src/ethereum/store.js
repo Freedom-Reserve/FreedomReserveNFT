@@ -12,9 +12,12 @@ export const getSalePrice = async (compo) => new Promise(async (resolve, reject)
       const priceInWeiETH = await instNFT721Sales.methods.priceInWeiETH().call();
       const priceInETHETH = fromWei(priceInWeiETH);
       resolve(priceInETHETH);
+    } else {
+      console.log("addr:", addrFrom);
+      console.error("instNFT721Sales or addrFrom invalid")
     }
   } catch (err) {
-    console.error(err);
+    console.error("err@getSalePrice:", err);
     reject(err);
     //this.setState({errGetBalance: err.message});
   }

@@ -217,7 +217,7 @@ new Promise(async (resolve, reject) => {
     ctrtAddrs = [config.NFT721Creature_rinkeby, config.NFT721Sales_rinkeby];
     resolve(ctrtAddrs);
   } else if (ctrtNum === 1) {
-    ctrtAddrs = [config.NFT721Creature_ethMainnet, config.NFT721Creature_ethMainnet];
+    ctrtAddrs = [config.NFT721Creature_ethMainnet, config.NFT721Sales_ethMainnet];
     resolve(ctrtAddrs);
   } else {
     console.error("contractPair is invalid");
