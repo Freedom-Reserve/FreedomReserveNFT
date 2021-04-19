@@ -29,7 +29,7 @@ export const config = {
   serverNumer: 1,
   isProduction: 1,
   gasPrice: 155,
-  gasLimit: 1000000,
+  gasLimit: 200000,
   server0: "http://localhost:3000",
   server1: "https://google.com",
   defaultUserChoice: 2,
