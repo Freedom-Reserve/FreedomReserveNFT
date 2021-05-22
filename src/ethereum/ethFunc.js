@@ -1,11 +1,11 @@
 import detectEthereumProvider from '@metamask/detect-provider'
 import { ethers, BigNumber} from "ethers"; //BigNumber
 import Web3 from "web3";
-import { config } from "../ethereum/config";
+import { config } from "./config";
 //import ERC20Token from "./ERC20Token.json";
 import NFT721Creature from "./NFT721Creature.json";
 import NFT721Sales from "./NFT721Sales.json";
-//import ERC20TokenFR from "./ERC20TokenFR.json";
+import ERC20Token from "./ERC20Token.json";
 
 //import { rewardsCtrtIdxes, dbSelections } from "./config";
 // const instance = new web3.eth.Contract(
@@ -57,15 +57,15 @@ export const toWei = (amount) => toWeiE(amount);
 export const getTokenBalance = async (compo, userAddr) =>
 new Promise(async (resolve, reject) => {
   console.log("---------== getTokenBalance()");
-  const [instERC20TokenFR, acct0] = await extractCompo(compo, 2, 0);
+  const [instERC20TokenFR, addrFrom] = await extractCompo(compo, 2, 0);
 
-  if (instERC20TokenFR === undefined || acct0 === undefined) {
+  if (instERC20TokenFR === undefined || addrFrom === undefined) {
     resolve(-1);
     return false;
   }
 
   if (userAddr === undefined || userAddr === "") {
-    userAddr = acct0;
+    userAddr = addrFrom;
     console.log("using default accounts[0]");
   }
   console.log("userAddr:", userAddr);
@@ -80,6 +80,7 @@ new Promise(async (resolve, reject) => {
 });
 //--------------------------==
 export const extractCompo = async(compo, ctrtNum, acctIdx) => {
+  log1("---------== extractCompo. ctrtNum:", ctrtNum, ", acctIdx:", acctIdx)
   //log1("compo:", compo);
   if (compo === undefined) {
     console.error("compo is undefined");
@@ -96,27 +97,31 @@ export const extractCompo = async(compo, ctrtNum, acctIdx) => {
   const instContracts = compo[3];
   if(instContracts === undefined){
     console.error("instContracts undefined")
-  } else if(instContracts.length < 2){
-    console.error("instContracts length is less than 2")
+    return [-1];
+  } else if(instContracts.length !== 3){
+    console.error("instContracts length is incorrect")
+    return [-1];
   }
   const instNFT721Creature = instContracts[0];
   const instNFT721Sales = instContracts[1];
-  const instTokenFR = "";//instContracts[2];
+  const instERC20Token = instContracts[2];
   if(Number.isInteger(acctIdx) && parseInt(Number(acctIdx)) >= 0) {
     //const addr1 = await getAccounts(compo[0]);
-    const acct0 = compo[1][acctIdx];
-    //console.log("acct0:", acct0);
+    const addrFrom = compo[1][acctIdx];
+    //console.log("addrFrom:", addrFrom);
 
-    if(ctrtNum === 2) {
-      return [instTokenFR, acct0];
+    if(ctrtNum === 3) {
+      return [instNFT721Sales, instERC20Token, addrFrom];
+    } else if(ctrtNum === 2) {
+      return [instERC20Token, addrFrom];
     } else if(ctrtNum === 1) {
-      return [instNFT721Sales, acct0];
+      return [instNFT721Sales, addrFrom];
     } else {
-      return [instNFT721Creature, acct0];
+      return [instNFT721Creature, addrFrom];
     }
   } else {
     if(ctrtNum === 2) {
-      return [instTokenFR];
+      return [instERC20Token];
     } else if(ctrtNum === 1) {
       return [instNFT721Sales];
     } else {
@@ -412,8 +417,19 @@ export const init = async () =>
         return false;
       }
 
+      const addrERC20Token = await instNFT721Sales.methods.token().call();
+      log1("addrERC20Token:",addrERC20Token);
+      const instERC20 = new web3.eth.Contract(
+        ERC20Token.abi, addrERC20Token
+      );
+      if (typeof instERC20 === "undefined") {
+        log1("missing instERC20:", instERC20);
+        reject("missing instERC20");
+        return false;
+      }
+
       const instContracts = [
-        instNFT721Creature, instNFT721Sales
+        instNFT721Creature, instNFT721Sales, instERC20
       ];
 
       log1("init is successful");
@@ -426,15 +442,6 @@ export const init = async () =>
 
 
 /**
-      const instERC20 = new web3.eth.Contract(
-        ERC20Token.abi,
-        config.erc20TokenAddress
-      ); //deployedNetwork && deployedNetwork.address,
-      if (typeof instERC20 === "undefined") {
-        log1("missing instERC20:", instERC20);
-        reject("missing instERC20");
-      }
-
 const getERC20CtrtStates = async (web3, addr, instERC20) =>
   new Promise(async (resolve, reject) => {
     try {

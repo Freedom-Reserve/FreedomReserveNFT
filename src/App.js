@@ -1,12 +1,12 @@
 import "./App.scss";
 import "semantic-ui-css/semantic.min.css";
 import React, { useState, useEffect } from "react";
-import { Form, Button, Input, Label, Message, } from "semantic-ui-react";
-//Card, Header, Segment, GridRow, Dropdown, Grid, 
+import { Form, Button, Input, Label, Dropdown, Grid, } from "semantic-ui-react";
+//Card, Header, Segment, GridRow, Message,
 
 //import { DropDownRewardsCtrts } from "./dropdown";
 import {init, log1, } from "./ethereum/ethFunc";//getGasData, getERC20Balance, fromWei, checkNetwork, getNFTBalance, 
-import { config } from "./ethereum/config";//rewardsCtrtIdxes, dbSelections, assetNames, outcomes, 
+import { config, assetSelections} from "./ethereum/config"; 
 import {BalanceOf, CheckUser, CheckAvailable, getSalePrice} from "./ethereum/store";
 
 import Directory from './components/directory/directory';
@@ -21,14 +21,14 @@ import EthereumContext from "./ethereumContext"; //no {}
 function App() {
   if(window.ethereum) window.ethereum.autoRefreshOnNetworkChange = false;
 
-  const gasPriceDefault = config.gasPriceDefault;//1 GWei
-  const gasLimitDefault = config.gasLimitDefault;//1000000
+  //const gasPriceDefault = config.gasPriceDefault;//1 GWei
+  //const gasLimitDefault = config.gasLimitDefault;//1000000
   const [compo, setCompo] = useState([]);
 
-  const [gasPrice, setGasPrice] = useState(gasPriceDefault);
-  const [gasLimit, setGasLimit] = useState(gasLimitDefault);
-  const [loading, setLoading] = useState(false);
-  const [errMsg, setErrMsg] = useState("");
+  //const [gasPrice, setGasPrice] = useState(gasPriceDefault);
+  //const [gasLimit, setGasLimit] = useState(gasLimitDefault);
+  //const [loading, setLoading] = useState(false);
+  //const [errMsg, setErrMsg] = useState("");
   const userChoice = config.defaultUserChoice;
   let userAddrDefault;
   if(userChoice === 1) {
@@ -36,7 +36,7 @@ function App() {
   } else {
     userAddrDefault = config.user2;
   }
-  const [userAddr, userAddrSet] = useState(userAddrDefault);
+  //const [userAddr, userAddrSet] = useState(userAddrDefault);
 
   const [nftBalance, nftBalanceSet] = useState(-1);
   const [tokenIDs, tokenIDsSet] = useState([]);
@@ -57,7 +57,7 @@ function App() {
       // await BalanceOf1();
       // await CheckUser1();
       // await CheckAvailable1();
-      setCompo(compo1);
+      setCompo([...compo1, assetSelections[0].value]);
 
       let provider, isMetaMask2;
       if(!window.ethereum){
@@ -73,7 +73,7 @@ function App() {
           if(accounts.length === 0){
             console.error("accounts are empty");
           }
-          setCompo(prevCompo => [prevCompo[0], accounts, prevCompo[2], prevCompo[3]]);
+          setCompo(prevCompo => [prevCompo[0], accounts, prevCompo[2], prevCompo[3], prevCompo[4], prevCompo[5]]);
         });
         
         provider.on('chainChanged', (chainId) => {
@@ -212,9 +212,14 @@ function App() {
   function hasNumber(myString) {
     return /\d/.test(myString);
   }
+  const paymentTypeHandleDropdown = (e, { value }) => {
+    log1("paymentType:", value);
+    //paymentTypeSet(value);
+    setCompo(prevCompo => [prevCompo[0], prevCompo[1], prevCompo[2], prevCompo[3], prevCompo[4], value]);
+  };
 
   let networkId = 0;
-  if(compo === undefined || compo.length !== 5) {
+  if(compo === undefined || compo.length !== 6) {
     console.warn("compo failed in App.js:", compo);
     networkId = 0
   } else {
@@ -255,6 +260,22 @@ function App() {
           />
           <Label size={'huge'}>{tokenIDsString}</Label>
         </Form>
+
+        <Grid columns={2}>
+            <Grid.Row centered columns={4}>
+              <Grid.Column>
+                <Dropdown
+                  placeholder="Pay with Ether"
+                  scrolling
+                  wrapSelection={false}
+                  selection
+                  options={assetSelections}
+                  onChange={paymentTypeHandleDropdown}
+                />
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+          <br></br>
 
         <br></br>
         <Directory rowNum={1} tokenIDs={tokenIDsForSales} />
@@ -398,13 +419,4 @@ export default App;
   //     default:
   //       console.warn("clearErr: no matched inputSource");
   //   }
-  // };
-
-  // const handleDropdownAssetName = (e, { value }) => {
-  //   log1("assetNameDropdown value:", value);
-  //   //assetNameSet(value);
-  // };
-  // const handleDBDropdown = (e, { value }) => {
-  //   log1("DBDropdown value:", value);
-  //   //outcomeSet(value);
   // };
