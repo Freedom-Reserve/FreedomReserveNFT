@@ -18,9 +18,9 @@ export const config = {
   infuraProvider:
     "https://eth-mainnet.alchemyapi.io/v2/k2--UTxxx",
   ethNodeURL0: "",
-  ethNodeURL1: "https://mainnet.infura.io/v3/75df2",
-  ethNodeURL4: "https://rinkeby.infura.io/v3/75df2",
-  ethNodeURL42: "https://kovan.infura.io/v3/75df2",
+  ethNodeURL1: "https://mainnet.infura.io/v3/75df212e084f4778811330dd3c14907b",
+  ethNodeURL4: "https://rinkeby.infura.io/v3/75df212e084f4778811330dd3c14907b",
+  ethNodeURL42: "https://kovan.infura.io/v3/75df212e084f4778811330dd3c14907b",
   gasDataSource:
     "https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey=GH7KVC23UWE9BTDKDVRDSTTE5X8I25U2X5",
   password: "abc123",

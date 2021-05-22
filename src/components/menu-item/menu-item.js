@@ -32,7 +32,12 @@ const MenuItem = ({title, imageUrl, size, history, tokenIDs, match}) => {
     console.log("---------== buyNFTViaETH1():", title);
     // setLoading(true);
     // setErrMsg("");
-    if(isAvailable){
+    console.log("compo[4]:", compo[4])
+    if(compo[4] === false){
+      console.warn("compo[4] invalid")
+      window.alert("Please install a wallet like MetaMask and switch to a correct network")
+      return false;
+    } else if(isAvailable){
       const gasPrice = await getGasData();
       //const gasPrice = config.gasPrice;
       const gasLimit = config.gasLimit;
@@ -52,7 +57,6 @@ const MenuItem = ({title, imageUrl, size, history, tokenIDs, match}) => {
     <div 
       className={`${size} menu-item`} //dynamic classname
       onClick={(e)=> {
-        console.log("clicked", title);
         buyNFTViaETH1(e);
         }}
       >

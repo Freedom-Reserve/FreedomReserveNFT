@@ -59,29 +59,31 @@ function App() {
       // await CheckAvailable1();
       setCompo(compo1);
 
+      let provider, isMetaMask2;
       if(!window.ethereum){
-        console.error("window.ethereum does not exist")
-        return;
+        //console.warn("window.ethereum does not exist")
+      } else {
+        log1("window.ethereum is valid")
+        provider = window.ethereum;
+        isMetaMask2 = provider.isMetaMask;
+        log1("isMetaMask2:", isMetaMask2);
+        
+        provider.on('accountsChanged', (accounts) =>{
+          log1("accountsChanged:", accounts);
+          if(accounts.length === 0){
+            console.error("accounts are empty");
+          }
+          setCompo(prevCompo => [prevCompo[0], accounts, prevCompo[2], prevCompo[3]]);
+        });
+        
+        provider.on('chainChanged', (chainId) => {
+          log1("App chainId:", chainId);
+          // Handle the new chain.
+          // Correctly handling chain changes can be complicated.
+          // We recommend reloading the page unless you have good reason not to.
+          window.location.reload();
+        });
       }
-      const provider = window.ethereum;
-      const isMetaMask2 = provider.isMetaMask;
-      log1("isMetaMask2:", isMetaMask2);
-      
-      provider.on('accountsChanged', (accounts) =>{
-        log1("accountsChanged:", accounts);
-        if(accounts.length === 0){
-          console.error("accounts are empty");
-        }
-        setCompo(prevCompo => [prevCompo[0], accounts, prevCompo[2], prevCompo[3]]);
-      });
-      
-      provider.on('chainChanged', (chainId) => {
-        log1("App chainId:", chainId);
-        // Handle the new chain.
-        // Correctly handling chain changes can be complicated.
-        // We recommend reloading the page unless you have good reason not to.
-        window.location.reload();
-      });
     };
     initAction();
   }, []); //[] for running once
@@ -212,21 +214,27 @@ function App() {
   }
 
   let networkId = 0;
-  if (compo === undefined || compo.length !== 4) {
-    log1("compo failed", compo);
+  if(compo === undefined || compo.length !== 5) {
+    console.warn("compo failed in App.js:", compo);
     networkId = 0
   } else {
     networkId = compo[2];
   }
-    // if (typeof rewardsStates !== "undefined") {
-    //   //checking reading from smart contracts
-    // }
+
+  let networkStatus = "";
+  if(compo[4] === false){
+    networkStatus = "Please install a wallet like MetaMask and switch to a correct network";
+  } else if(networkId !== Number(config.contractPair)){
+    networkStatus = "Incorrect Network. Please change your MetaMask network to Ethereum Mainnet"
+  } else {
+    networkStatus = "Good";
+  }
 
   return (
     <div className="App">
       <EthereumContext.Provider value={compo}>
       <h1>Freedom Reserve Limited Edition Coins</h1>
-        <h3>Connected Network: {networkId === 0? "Please use WEB3 browser and choose correct network":networkId}, Network ID: {networkId===Number(config.contractPair)?"Ok":"Incorrect Network"}</h3>
+        <h3>Connected Network ID: {networkId === 0? "Please use WEB3 browser and choose correct network":networkId}, Network Status: {networkStatus}</h3>
         <h3>Connected address: {compo[1]}</h3>
         <h3>Sale Price: {salePrice} ETH per NFT</h3>
 

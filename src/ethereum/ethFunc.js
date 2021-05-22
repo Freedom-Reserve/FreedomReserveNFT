@@ -97,7 +97,7 @@ export const extractCompo = async(compo, ctrtNum, acctIdx) => {
   if(instContracts === undefined){
     console.error("instContracts undefined")
   } else if(instContracts.length < 2){
-    console.error("instContracts length is less than 3")
+    console.error("instContracts length is less than 2")
   }
   const instNFT721Creature = instContracts[0];
   const instNFT721Sales = instContracts[1];
@@ -340,24 +340,25 @@ export const init = async () =>
       log1("isMetaMask", isMetaMask);
       if (!isMetaMask) {
         mesg = "Please install MetaMask browser extension";
-        log1(mesg);
-        reject(mesg);
-        return false;
+        console.warn(mesg);
+        //reject(mesg);
+        //return false;
       }
 
-      const accounts = await web3.eth.getAccounts();
+      let accounts = await web3.eth.getAccounts();
       // const networkId = await web3.eth.net.getId();
       // const deployedNetwork = ctrtX.networks[networkId];
       if (!Array.isArray(accounts) || accounts.length === 0) {
-        mesg = "missing accounts";
+        mesg = "missing accounts. use a fake user account";
         log1(
           "missing accounts:",
           accounts,
           Array.isArray(accounts),
           accounts.length
         );
-        reject(mesg);
-        return false;
+        accounts = ["0xdAC17F958D2ee523a2206206994597C13D831ec7"]
+        //reject(mesg);
+        //return false;
       }
       if (accounts[0] === undefined) {
         mesg = "Please login to MetaMask(ETH wallet)";
@@ -365,10 +366,19 @@ export const init = async () =>
         reject(mesg);
         return false;
       }
-      console.log("accounts:", accounts);
+      log1("accounts:", accounts);
 
-      const chainId = parseInt(window.ethereum.chainId, 16);
-      console.log("chainId:", chainId);
+      let chainId = config.contractPair;
+      let isWindowEthereum = false;
+      if (window === undefined || window.ethereum === undefined || window.ethereum.chainId === undefined) {
+        console.warn("window.ethereum.chainId is invalid, isWindowEthereum:", isWindowEthereum);
+        console.warn("chainId is set to:", chainId);
+      } else {
+        isWindowEthereum = true;
+        chainId = parseInt(window.ethereum.chainId, 16);
+      }
+
+      log1("chainId:", chainId);
       if(chainId === 77){
         log1("chainId 77 for xDai Testnet detected");
       } else if(chainId === 1){
@@ -376,9 +386,7 @@ export const init = async () =>
       } else if(chainId === 4){
         log1("chainId 4 for Ethereum Rinkeby detected");
       } else {
-        mesg = "chainId invalid";
-        reject(mesg);
-        return false;
+        console.warn("chainId invalid");
       }
 
       const [addrNFT721Creature, addrNFT721Sales]= await getCtrtAddresses();
@@ -409,7 +417,7 @@ export const init = async () =>
       ];
 
       log1("init is successful");
-      resolve([web3, accounts, chainId, instContracts]);
+      resolve(["web3",accounts,chainId,instContracts,isWindowEthereum]);
     } catch (error) {
       log1(error);
       reject("init failed");
