@@ -1,11 +1,8 @@
 /*config ...
 @type: Configuration
-@brief ... 
-
-//-------------== To Deploy
-For Production:  isProduction to 1
-
-$ yarn deploy
+@brief ..//-------------== To Deploy
+set contractPair = 4
+$ yarn run deploy
 Then push
 //-------------==
 manual push: copy ethereum192x192.png into repo

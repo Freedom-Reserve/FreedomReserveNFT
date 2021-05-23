@@ -1,24 +1,26 @@
-import { ethers, BigNumber} from "ethers"; //BigNumber
+//import { ethers, BigNumber} from "ethers"; //BigNumber
+import {extractCompo, toWei, fromWei, GWEI, getCtrtAddresses,  log1} from "./ethFunc";
+//getGasData, fromWeiE, addr0, 
 //import { config } from "./config";
-import {extractCompo, toWei, fromWei, GWEI, addr0, getCtrtAddresses, getGasData, fromWeiE, log1} from "./ethFunc";
-import { config } from "./config";
 
 //--------------------------==
 //--------------------------== Sale Contract
-export const getSalePrice = async (compo) => new Promise(async (resolve, reject) => {
-  log1("---------== getSalePrice()");
+export const GetSalePrices = async (compo) => new Promise(async (resolve, reject) => {
+  log1("---------== GetSalePrices()");
   const [instNFT721Sales, addrFrom] = await extractCompo(compo, 1, 0);
   try {
     if (instNFT721Sales !== undefined && addrFrom !== "") {
       const priceInWeiETH = await instNFT721Sales.methods.priceInWeiETH().call();
-      const priceInETHETH = fromWei(priceInWeiETH);
-      resolve(priceInETHETH);
+      const priceInWeiToken = await instNFT721Sales.methods.priceInWeiToken().call();
+      resolve([priceInWeiETH, priceInWeiToken]);
     } else {
       log1("addr:", addrFrom);
-      console.error("instNFT721Sales or addrFrom invalid")
+      console.error("instNFT721Sales or addrFrom invalid");
+      reject("instNFT721Sales or addrFrom invalid");
+      return false;
     }
   } catch (err) {
-    console.error("err@getSalePrice:", err);
+    console.error("err@GetSalePrices:", err);
     reject(err);
     //this.setState({errGetBalance: err.message});
   }

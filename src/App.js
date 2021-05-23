@@ -1,13 +1,13 @@
 import "./App.scss";
 import "semantic-ui-css/semantic.min.css";
 import React, { useState, useEffect } from "react";
-import { Form, Button, Input, Label, Dropdown, Grid, } from "semantic-ui-react";
+import { Form, Button, Label, Dropdown, Grid, } from "semantic-ui-react";//Input, 
 //Card, Header, Segment, GridRow, Message,
 
 //import { DropDownRewardsCtrts } from "./dropdown";
-import {init, log1, } from "./ethereum/ethFunc";//getGasData, getERC20Balance, fromWei, checkNetwork, getNFTBalance, 
+import {init, log1, fromWei,} from "./ethereum/ethFunc";//getGasData, getERC20Balance,  checkNetwork, getNFTBalance, 
 import { config, assetSelections} from "./ethereum/config"; 
-import {BalanceOf, CheckUser, CheckAvailable, getSalePrice} from "./ethereum/store";
+import {BalanceOf, CheckUser, CheckAvailable, GetSalePrices} from "./ethereum/store";
 
 import Directory from './components/directory/directory';
 //import Header from './components/header/header';
@@ -39,10 +39,10 @@ function App() {
   //const [userAddr, userAddrSet] = useState(userAddrDefault);
 
   const [nftBalance, nftBalanceSet] = useState(-1);
-  const [tokenIDs, tokenIDsSet] = useState([]);
+  //const [tokenIDs, tokenIDsSet] = useState([]);
   const [tokenIDsForSales, tokenIDsForSalesSet] = useState([]);
   const [tokenIDsString, tokenIDsStringSet] = useState("");
-  const [salePrice, salePriceSet] = useState("");
+  const [salePrices, salePricesSet] = useState("");
   //const [tokenIDsStrSold, tokenIDsStrSoldSet] = useState("");
 
   useEffect(() => {
@@ -53,11 +53,10 @@ function App() {
         //alert(`initialization failed`);
         return;
       });
-      //log1("compo1 length:", compo1.length)
-      // await BalanceOf1();
-      // await CheckUser1();
-      // await CheckAvailable1();
-      setCompo([...compo1, assetSelections[0].value]);
+      log1("compo1:", compo1)
+      if(compo1){
+        setCompo([...compo1, assetSelections[0].value]);
+      }
 
       let provider, isMetaMask2;
       if(!window.ethereum){
@@ -95,7 +94,7 @@ function App() {
       await BalanceOf1();
       await CheckUser1();
       await CheckAvailable1();
-      await getSalePrice1();
+      await GetSalePrices1();
     };
     if (!Array.isArray(compo) || !compo.length) {
       log1("useEffect2: is not an array, or is empty")
@@ -111,19 +110,20 @@ function App() {
   //   }, delayInMilliseconds);
   // };
 
-  const getSalePrice1 = async (event) => {
+  const GetSalePrices1 = async (event) => {
     if(event) event.preventDefault();
-    log1("---------== getSalePrice1()");
+    log1("---------== GetSalePrices1()");
     // setLoading(true);
     // setErrMsg("");
-    const data1 = await getSalePrice(compo).catch((err) => {
-      console.error("err@getSalePrice:", err);
-      salePriceSet("?");
-      //setErrMsg("getSalePrice1 failed");
+    const data1 = await GetSalePrices(compo).catch((err) => {
+      console.error("err@GetSalePrices:", err);
+      salePricesSet("?");
+      //setErrMsg("GetSalePrice1 failed");
       return false;
     });
-    salePriceSet(data1);
+    salePricesSet(data1);
   }
+
   const BalanceOf1 = async (event) => {
     if(event) event.preventDefault();
     log1("---------== BalanceOf1()");
@@ -170,7 +170,7 @@ function App() {
       });
     }
     log1("tokenIds:", tokenIds, tokenIdsString1);
-    tokenIDsSet(tokenIds);
+    //tokenIDsSet(tokenIds);
     tokenIDsStringSet(tokenIdsString1);
   }
 
@@ -209,9 +209,11 @@ function App() {
     tokenIDsForSalesSet(tokenIds);
     //tokenIDsStrSoldSet(tokenIdsString1);
   }
+
   function hasNumber(myString) {
     return /\d/.test(myString);
   }
+
   const paymentTypeHandleDropdown = (e, { value }) => {
     log1("paymentType:", value);
     //paymentTypeSet(value);
@@ -241,7 +243,7 @@ function App() {
       <h1>Freedom Reserve Limited Edition Coins</h1>
         <h3>Connected Network ID: {networkId === 0? "Please use WEB3 browser and choose correct network":networkId}, Network Status: {networkStatus}</h3>
         <h3>Connected address: {compo[1]}</h3>
-        <h3>Sale Price: {salePrice} ETH per NFT</h3>
+        <h3>Sale Price: {fromWei(salePrices[0])} ETH or {fromWei(salePrices[1])} Freedom Reserve coin per NFT</h3>
 
         <br></br>
         <Form onSubmit={BalanceOf1} >
@@ -261,8 +263,8 @@ function App() {
           <Label size={'huge'}>{tokenIDsString}</Label>
         </Form>
 
-        <Grid columns={2}>
-            <Grid.Row centered columns={4}>
+        <Grid columns={1}>
+            <Grid.Row centered columns={3}>
               <Grid.Column>
                 <Dropdown
                   placeholder="Pay with Ether"
@@ -274,8 +276,8 @@ function App() {
                 />
               </Grid.Column>
             </Grid.Row>
-          </Grid>
-          <br></br>
+        </Grid>
+        <br></br>
 
         <br></br>
         <Directory rowNum={1} tokenIDs={tokenIDsForSales} />

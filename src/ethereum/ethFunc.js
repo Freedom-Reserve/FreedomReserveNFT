@@ -31,16 +31,24 @@ export const GWEI = 1000000000;
 
 export const fromWeiE = (weiAmount, dp = 18) => {
   try {
-    return ethers.utils.formatUnits(weiAmount, parseInt(dp));
+    if(weiAmount){
+      return ethers.utils.formatUnits(weiAmount, parseInt(dp));
+    } else {
+      return 0;
+    }
   } catch (err) {
     console.error("fromWeiE() failed:", err);
     return -1;
   }
 }//input: BN or string, dp = 6 or 18 number, output: string
 
-export const toWeiE = (amount, dp = 18) => {
+export const toWeiE = (hmAmount, dp = 18) => {
   try {
-    return ethers.utils.parseUnits(amount, parseInt(dp));
+    if(hmAmount){
+      return ethers.utils.parseUnits(hmAmount, parseInt(dp));
+    } else {
+      return 0;
+    }
   } catch (err) {
     console.error("toWeiE() failed:", err);
     return -1;
@@ -50,8 +58,8 @@ export const toWeiE = (amount, dp = 18) => {
 export const fromWei = (weiAmount) => fromWeiE(weiAmount);
 //web3.utils.fromWei(weiAmount.toString(), "ether");
 
-export const toWei = (amount) => toWeiE(amount);
-//web3.utils.toWei(amount.toString(), "ether");
+export const toWei = (hmAmount) => toWeiE(hmAmount);
+//web3.utils.toWei(hmAmount.toString(), "ether");
 
 //--------------------------== 
 export const getTokenBalance = async (compo, userAddr) =>
